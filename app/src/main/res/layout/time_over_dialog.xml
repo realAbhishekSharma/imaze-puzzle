@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/small_round_box"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/titleShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginTop="20dp"
+            android:text="Try Again"
+            android:textAllCaps="true"
+            android:textSize="35dp"
+            android:fontFamily="@font/crotah_free_version"
+            android:textColor="@color/cyan"
+            android:gravity="center"/>
+
+
+        <LinearLayout
+            android:id="@+id/coinContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/earnedScore"
+                android:layout_width="100dp"
+                android:layout_height="110dp"
+                android:gravity="center"
+                android:text="00"
+                android:textColor="@color/gray"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="30dp"
+                android:background="@drawable/score"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/timeIncrease"
+                android:layout_width="150dp"
+                android:layout_height="55dp"
+                android:text="Time X2"
+                android:textSize="25dp"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/darkGreen"
+                android:background="@drawable/round_with_border"
+                android:gravity="center"
+                android:fontFamily="@font/crotah_free_version"
+                />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/goHomeButton"
+            android:layout_width="150dp"
+            android:layout_height="55dp"
+            android:text="Retry"
+            android:textSize="25dp"
+            android:textAllCaps="true"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/darkGreen"
+            android:background="@drawable/round_with_border"
+            android:gravity="center"
+            android:fontFamily="@font/crotah_free_version"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timeIncrease"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
