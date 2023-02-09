@@ -11,6 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.ImazePuzzle"
+        tools:ignore="LockedOrientationActivity"
         tools:targetApi="31">
 
 

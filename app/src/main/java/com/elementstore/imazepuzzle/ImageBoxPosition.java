@@ -1,4 +1,4 @@
-package com.example.imazepuzzle;
+package com.elementstore.imazepuzzle;
 
 public class ImageBoxPosition {
     int x,y;

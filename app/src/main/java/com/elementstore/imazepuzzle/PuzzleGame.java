@@ -1,10 +1,6 @@
-package com.example.imazepuzzle;
+package com.elementstore.imazepuzzle;
 
 import static android.content.ContentValues.TAG;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,19 +13,17 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.OnUserEarnedRewardListener;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
-
-import java.util.Map;
 
 public class PuzzleGame extends AppCompatActivity {
 
@@ -62,7 +56,7 @@ public class PuzzleGame extends AppCompatActivity {
 
     int[] emptyBoxPosition = {-1,-1};
 
-    TextView imageBox[][] = new TextView[3][3];
+    TextView[][] imageBox = new TextView[3][3];
     TextView originalImage,timer, emptyBox;
     TextView clickUp, clickDown, clickLeft, clickRight;
 
@@ -91,26 +85,23 @@ public class PuzzleGame extends AppCompatActivity {
         Intent intent = getIntent();
         activity = intent.getStringExtra("activity");
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
+        MobileAds.initialize(this, initializationStatus -> {
         });
 
-        originalImage = (TextView) findViewById(R.id.originalImageShow);
+        originalImage = findViewById(R.id.originalImageShow);
 
-        timer = (TextView) findViewById(R.id.timer);
-        emptyBox = (TextView) findViewById(R.id.emptyBox);
+        timer = findViewById(R.id.timer);
+        emptyBox = findViewById(R.id.emptyBox);
 
-        clickUp = (TextView) findViewById(R.id.clickUp);
-        clickDown = (TextView) findViewById(R.id.clickDown);
-        clickLeft = (TextView) findViewById(R.id.clickLeft);
-        clickRight = (TextView) findViewById(R.id.clickRight);
+        clickUp = findViewById(R.id.clickUp);
+        clickDown = findViewById(R.id.clickDown);
+        clickLeft = findViewById(R.id.clickLeft);
+        clickRight = findViewById(R.id.clickRight);
 
         try {
             for (int x = 0; x < 3; x++) {
                 for (int y = 0; y < 3; y++) {
-                    imageBox[x][y] = (TextView) findViewById(imagePosition[x][y]);
+                    imageBox[x][y] = findViewById(imagePosition[x][y]);
 
                     setImageBackground(x,y);
 
@@ -130,47 +121,24 @@ public class PuzzleGame extends AppCompatActivity {
                 }
             }
         }catch (Exception exception){
-            System.out.println(exception.toString());
+            System.out.println(exception);
         }
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setImageBox();
-                startTimer();
-            }
+        new Handler().postDelayed(() -> {
+            setImageBox();
+            startTimer();
         },200);
 
 
 
 
-        clickDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                swipeUp();
-            }
-        });
+        clickDown.setOnClickListener(view -> swipeUp());
 
-        clickUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                swipeDown();
-            }
-        });
+        clickUp.setOnClickListener(view -> swipeDown());
 
-        clickLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                swipeRight();
-            }
-        });
+        clickLeft.setOnClickListener(view -> swipeRight());
 
-        clickRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                swipeLeft();
-            }
-        });
+        clickRight.setOnClickListener(view -> swipeLeft());
 
 
     }
@@ -286,9 +254,9 @@ public class PuzzleGame extends AppCompatActivity {
 
 
 
-        System.out.println("image Box "+imageBoxPositions[i][j].getX()+" "+imageBoxPositions[i][j].getY());
-        System.out.println("empty Box "+emptyBox.getX()+" "+emptyBox.getY());
-        System.out.println("image "+emptyBoxPosition[0]+" "+emptyBoxPosition[1]);
+//        System.out.println("image Box "+imageBoxPositions[i][j].getX()+" "+imageBoxPositions[i][j].getY());
+//        System.out.println("empty Box "+emptyBox.getX()+" "+emptyBox.getY());
+//        System.out.println("image "+emptyBoxPosition[0]+" "+emptyBoxPosition[1]);
 //        checkImage();
 
     }
@@ -299,19 +267,18 @@ public class PuzzleGame extends AppCompatActivity {
             for (int y = 0; y<3; y++){
                 if (imageBoxPositions[x][y].getX() == x && imageBoxPositions[x][y].getY() == y){
                     correctCount++;
-                    System.out.println(correctCount);
+//                    System.out.println(correctCount);
                     if (correctCount == 9){
                         Toast.makeText(getApplicationContext(), "You won.",Toast.LENGTH_SHORT).show();
                         won = true;
                     }
 
-                }else {
-                    System.out.println(true);
                 }
             }
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void setImageBackground(int x, int y){
         switch (activity){
             case "animal":{
@@ -353,7 +320,7 @@ public class PuzzleGame extends AppCompatActivity {
         }
         swipeUp();
         swipeRight();
-        for (int p = 0; p<4;p++){
+        for (int p = 0; p<10;p++){
             int random = (int)( Math.random()*10)%4;
 
             switch (random){
@@ -399,6 +366,7 @@ public class PuzzleGame extends AppCompatActivity {
     }
 
     //Opening the time over box to show ads or collect the coin earned by user
+    @SuppressLint("SetTextI18n")
     private void openTimeOverBox(){
 
         AlertDialog.Builder dialogBox = new AlertDialog.Builder(PuzzleGame.this);
@@ -406,10 +374,10 @@ public class PuzzleGame extends AppCompatActivity {
 
         TextView titleShow,earnedScore,goHomeButton, addTime;
 
-        titleShow = (TextView) view.findViewById(R.id.titleShow);
-        earnedScore = (TextView) view.findViewById(R.id.earnedScore);
-        goHomeButton = (TextView) view.findViewById(R.id.goHomeButton);
-        addTime = (TextView) view.findViewById(R.id.timeIncrease);
+        titleShow = view.findViewById(R.id.titleShow);
+        earnedScore = view.findViewById(R.id.earnedScore);
+        goHomeButton = view.findViewById(R.id.goHomeButton);
+        addTime = view.findViewById(R.id.timeIncrease);
 
 //        GradientDrawable drawable = (GradientDrawable)goHomeButton.getBackground();
 //        drawable.mutate(); // only change this instance of the xml, not all components using this xml
@@ -464,7 +432,7 @@ public class PuzzleGame extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onAdFailedToShowFullScreenContent(AdError adError) {
+                    public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
                         // Called when ad fails to show.
                         Log.e(TAG, "Ad failed to show fullscreen content.");
                         timeRewardAds = null;
@@ -491,43 +459,43 @@ public class PuzzleGame extends AppCompatActivity {
 
         earnedScore.setText(totalScore+"");
 
-        addTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (timeRewardAds != null) {
-                    Activity activityContext = PuzzleGame.this;
-                    timeRewardAds.show(activityContext, new OnUserEarnedRewardListener() {
-                        @Override
-                        public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-                            // Handle the reward.
-                            Log.d(TAG, "The user earned the reward.");
-                            int rewardAmount = rewardItem.getAmount();
-                            String rewardType = rewardItem.getType();
-                            alertDialog.dismiss();
-                        }
-                    });
-                } else {
-                    Toast.makeText(getApplicationContext(), "Time Reward is Not Ready", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "The rewarded ad wasn't ready yet.");
-                }
-
-
+        addTime.setOnClickListener(view1 -> {
+            if (timeRewardAds != null) {
+                Activity activityContext = PuzzleGame.this;
+                timeRewardAds.show(activityContext, rewardItem -> {
+                    // Handle the reward.
+                    Log.d(TAG, "The user earned the reward.");
+//                    int rewardAmount = rewardItem.getAmount();
+//                    String rewardType = rewardItem.getType();
+                    alertDialog.dismiss();
+                });
+            } else {
+                Toast.makeText(getApplicationContext(), "Time Reward is Not Ready", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "The rewarded ad wasn't ready yet.");
             }
+
+
         });
 
-        goHomeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (won){
-                    score.saveHighScore(totalScore);
-                }
-                alertDialog.dismiss();
+        goHomeButton.setOnClickListener(view12 -> {
+            if (won){
+                score.saveHighScore(totalScore);
                 countDownTimer.cancel();
+                goHome();
+            }else {
+//                timeInSec =5;
+//                countDownTimer.start();
                 goHome();
 
             }
+            alertDialog.dismiss();
+
+
+
         });
+
     }
+
 
     private void startTimer(){
         countDownTimer = new CountDownTimer(timeInSec*1000,1000) {
@@ -550,14 +518,13 @@ public class PuzzleGame extends AppCompatActivity {
     private void timeOver(){
         checkImage();
         totalScore = score.generateScore(correctCount);
+        score.saveHighScore(totalScore);
         if (won){
             openTimeOverBox();
             countDownTimer.cancel();
         }
-
-
-
     }
+
 
     private void timeIncrease(){
         if (isAdsPlayed){

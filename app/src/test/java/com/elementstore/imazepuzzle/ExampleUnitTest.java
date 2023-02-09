@@ -1,4 +1,4 @@
-package com.example.imazepuzzle;
+package com.elementstore.imazepuzzle;
 
 import org.junit.Test;
 

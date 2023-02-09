@@ -1,4 +1,4 @@
-package com.example.imazepuzzle;
+package com.elementstore.imazepuzzle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,12 +13,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(getApplicationContext(), GameHome.class));
-                finish();
-            }
+        new Handler().postDelayed(() -> {
+            startActivity(new Intent(getApplicationContext(), GameHome.class));
+            finish();
         },1500);
     }
 }

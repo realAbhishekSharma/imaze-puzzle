@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">ImazePuzzle</string>
+    <string name="app_name">Imaze Puzzle</string>
+<!--    <string name="addTimeRewardAds">ca-app-pub-9842627619235895/9998125977</string>-->
     <string name="addTimeRewardAds">ca-app-pub-3940256099942544/5224354917</string>
 </resources>

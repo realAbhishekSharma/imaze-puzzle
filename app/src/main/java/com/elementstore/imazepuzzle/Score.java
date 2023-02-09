@@ -1,4 +1,4 @@
-package com.example.imazepuzzle;
+package com.elementstore.imazepuzzle;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 public class Score {
     private final String DATABASE = "corruptedFile";
     private final String SCORE = "Score";
-    private SharedPreferences sharedPreferences;
+    private final SharedPreferences sharedPreferences;
 
     public Score(Context context) {
         sharedPreferences = context.getSharedPreferences(DATABASE,Context.MODE_PRIVATE);
@@ -25,6 +25,6 @@ public class Score {
 
     public int generateScore(int correct){
 
-        return correct*1000;
+        return correct*100;
     }
 }

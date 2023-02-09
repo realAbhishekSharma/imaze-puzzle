@@ -44,6 +44,7 @@
         <TextView
             android:id="@+id/emptyBox"
             style="@style/puzzleBox"
+            android:background="@drawable/small_round_box"
             android:backgroundTint="@color/cyan"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
