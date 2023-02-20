@@ -10,6 +10,8 @@
     <color name="red">#FFFF0000</color>
     <color name="green">#FF00FF00</color>
     <color name="cyan">#03A9F4</color>
+    <color name="purpleText">#AC1DAC</color>
+
     <color name="transparent">#00000000</color>
     <color name="grayBackground">#EDEDED</color>
     <color name="gray">#989898</color>

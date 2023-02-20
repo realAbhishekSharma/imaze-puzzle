@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
@@ -27,6 +28,8 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
 public class PuzzleGame extends AppCompatActivity {
 
+
+    long timeInSec=100;
     int correctCount = 0;
     int totalScore = 0;
     CountDownTimer countDownTimer;
@@ -42,12 +45,26 @@ public class PuzzleGame extends AppCompatActivity {
             {R.drawable.car7, R.drawable.car8, R.drawable.car9},
     };
 
+
+
     int [][] animalImage = {
             {R.drawable.animal1, R.drawable.animal2, R.drawable.animal3},
             {R.drawable.animal4, R.drawable.animal5, R.drawable.animal6},
             {R.drawable.animal7, R.drawable.animal8, R.drawable.animal9},
     };
 
+
+    int[][] enemyImage = {
+            {R.drawable.enemy1, R.drawable.enemy2, R.drawable.enemy3},
+            {R.drawable.enemy4, R.drawable.enemy5, R.drawable.enemy6},
+            {R.drawable.enemy7, R.drawable.enemy8, R.drawable.enemy9},
+    };
+
+    int[][] spaceImage = {
+            {R.drawable.space1, R.drawable.space2, R.drawable.space3},
+            {R.drawable.space4, R.drawable.space5, R.drawable.space6},
+            {R.drawable.space7, R.drawable.space8, R.drawable.space9},
+    };
     int [][] fruitImage = {
             {R.drawable.fruit1, R.drawable.fruit2, R.drawable.fruit3},
             {R.drawable.fruit4, R.drawable.fruit5, R.drawable.fruit6},
@@ -62,12 +79,17 @@ public class PuzzleGame extends AppCompatActivity {
 
     ImageBoxPosition[][] imageBoxPositions = new ImageBoxPosition[3][3];
 
+
+    AdRequest adRequest = new AdRequest.Builder().build();
+
     RewardedAd timeRewardAds;
 
+    AdView mAdView;
+
     Score score;
+    ImageLevel imageLevel;
     boolean isAdsPlayed, won;
 
-    long timeInSec=100;
     String activity;
 
     @Override
@@ -82,11 +104,16 @@ public class PuzzleGame extends AppCompatActivity {
         setContentView(R.layout.activity_puzzle_game);
 
         score = new Score(this);
+        imageLevel = new ImageLevel(this);
+
         Intent intent = getIntent();
         activity = intent.getStringExtra("activity");
 
         MobileAds.initialize(this, initializationStatus -> {
         });
+
+        mAdView = findViewById(R.id.adView);
+        mAdView.loadAd(adRequest);
 
         originalImage = findViewById(R.id.originalImageShow);
 
@@ -103,21 +130,21 @@ public class PuzzleGame extends AppCompatActivity {
                 for (int y = 0; y < 3; y++) {
                     imageBox[x][y] = findViewById(imagePosition[x][y]);
 
-                    setImageBackground(x,y);
+                    setSmallImageBoxBackground(x,y);
 
                     ImageBoxPosition i = new ImageBoxPosition();
                     i.setX(x);
                     i.setY(y);
                     imageBoxPositions[x][y] = i;
-//
-//                    TextView temp = imageBox[x][y];
-//
-//                    imageBox[x][y].setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            Toast.makeText(getApplicationContext(), temp.getText().toString(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
+/*
+                    TextView temp = imageBox[x][y];
+
+                    imageBox[x][y].setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(getApplicationContext(), temp.getText().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });*/
                 }
             }
         }catch (Exception exception){
@@ -125,10 +152,9 @@ public class PuzzleGame extends AppCompatActivity {
         }
 
         new Handler().postDelayed(() -> {
-            setImageBox();
+            setImageBoxRandomPosition();
             startTimer();
         },200);
-
 
 
 
@@ -168,7 +194,7 @@ public class PuzzleGame extends AppCompatActivity {
             int xx = emptyBoxPosition[0];
             int yy = emptyBoxPosition[1];
 
-            swapBox( xx+1,yy);
+            swapImageAndEmptyBox( xx+1,yy);
 
             imageBoxPositions[xx][yy].setX(imageBoxPositions[emptyBoxPosition[0]][emptyBoxPosition[1]].getX());
             imageBoxPositions[xx][yy].setY(imageBoxPositions[emptyBoxPosition[0]][emptyBoxPosition[1]].getY());
@@ -202,7 +228,7 @@ public class PuzzleGame extends AppCompatActivity {
 
             int xx = emptyBoxPosition[0];
             int yy = emptyBoxPosition[1];
-            swapBox( xx-1,yy);
+            swapImageAndEmptyBox( xx-1,yy);
 
             imageBoxPositions[xx][yy].setX(imageBoxPositions[emptyBoxPosition[0]][emptyBoxPosition[1]].getX());
             imageBoxPositions[xx][yy].setY(imageBoxPositions[emptyBoxPosition[0]][emptyBoxPosition[1]].getY());
@@ -215,7 +241,7 @@ public class PuzzleGame extends AppCompatActivity {
 
             int xx = emptyBoxPosition[0];
             int yy = emptyBoxPosition[1];
-            swapBox( xx,yy+1);
+            swapImageAndEmptyBox( xx,yy+1);
 
             imageBoxPositions[xx][yy].setX(imageBoxPositions[emptyBoxPosition[0]][emptyBoxPosition[1]].getX());
             imageBoxPositions[xx][yy].setY(imageBoxPositions[emptyBoxPosition[0]][emptyBoxPosition[1]].getY());
@@ -228,7 +254,7 @@ public class PuzzleGame extends AppCompatActivity {
 
             int xx = emptyBoxPosition[0];
             int yy = emptyBoxPosition[1];
-            swapBox( xx,yy-1);
+            swapImageAndEmptyBox( xx,yy-1);
 
             imageBoxPositions[xx][yy].setX(imageBoxPositions[emptyBoxPosition[0]][emptyBoxPosition[1]].getX());
             imageBoxPositions[xx][yy].setY(imageBoxPositions[emptyBoxPosition[0]][emptyBoxPosition[1]].getY());
@@ -237,7 +263,7 @@ public class PuzzleGame extends AppCompatActivity {
         }
     }
 
-    private void swapBox(int i, int j){
+    private void swapImageAndEmptyBox(int i, int j){
         float x = emptyBox.getX();
         float y = emptyBox.getY();
 
@@ -261,7 +287,7 @@ public class PuzzleGame extends AppCompatActivity {
 
     }
 
-    private void checkImage(){
+    private void checkImageAnswerPosition(){
         correctCount =0;
         for (int x =0; x<3; x++){
             for (int y = 0; y<3; y++){
@@ -279,17 +305,29 @@ public class PuzzleGame extends AppCompatActivity {
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    private void setImageBackground(int x, int y){
+    private void setSmallImageBoxBackground(int x, int y){
         switch (activity){
+            case "car":{
+                originalImage.setBackground(getDrawable(R.drawable.car));
+                imageBox[x][y].setBackground(getDrawable(carImage[x][y]));
+                imageBox[x][y].setText("");
+            }
+            break;
             case "animal":{
                 originalImage.setBackground(getDrawable(R.drawable.animal));
                 imageBox[x][y].setBackground(getDrawable(animalImage[x][y]));
                 imageBox[x][y].setText("");
             }
             break;
-            case "car":{
-                originalImage.setBackground(getDrawable(R.drawable.car));
-                imageBox[x][y].setBackground(getDrawable(carImage[x][y]));
+            case "enemy":{
+                originalImage.setBackground(getDrawable(R.drawable.enemy));
+                imageBox[x][y].setBackground(getDrawable(enemyImage[x][y]));
+                imageBox[x][y].setText("");
+            }
+            break;
+            case "space":{
+                originalImage.setBackground(getDrawable(R.drawable.space));
+                imageBox[x][y].setBackground(getDrawable(spaceImage[x][y]));
                 imageBox[x][y].setText("");
             }
             break;
@@ -300,12 +338,9 @@ public class PuzzleGame extends AppCompatActivity {
             }
             break;
         }
-
-
-
     }
 
-    private void setImageBox(){
+    private void setImageBoxRandomPosition(){
         swipeUp();
         for (int x =0; x<3; x++){
             swipeUp();
@@ -320,7 +355,7 @@ public class PuzzleGame extends AppCompatActivity {
         }
         swipeUp();
         swipeRight();
-        for (int p = 0; p<10;p++){
+        for (int p = 0; p<5;p++){
             int random = (int)( Math.random()*10)%4;
 
             switch (random){
@@ -385,9 +420,10 @@ public class PuzzleGame extends AppCompatActivity {
 
 
         if (won){
-            addTime.setVisibility(View.INVISIBLE);
+            addTime.setVisibility(View.GONE);
             goHomeButton.setText("Go Home");
             titleShow.setText("You Won");
+            titleShow.setTextColor(getColor(R.color.cyan));
         }
 
         dialogBox.setView(view);
@@ -396,9 +432,6 @@ public class PuzzleGame extends AppCompatActivity {
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
         alertDialog.setCancelable(false);
-
-
-        AdRequest adRequest = new AdRequest.Builder().build();
 
         // Timer ads reload on every time over box
         RewardedAd.load(this, getResources().getString(R.string.addTimeRewardAds), adRequest, new RewardedAdLoadCallback() {
@@ -479,8 +512,9 @@ public class PuzzleGame extends AppCompatActivity {
 
         goHomeButton.setOnClickListener(view12 -> {
             if (won){
-                score.saveHighScore(totalScore);
+                score.setScore(totalScore);
                 countDownTimer.cancel();
+                updateImageActiveLevel();
                 goHome();
             }else {
 //                timeInSec =5;
@@ -495,7 +529,6 @@ public class PuzzleGame extends AppCompatActivity {
         });
 
     }
-
 
     private void startTimer(){
         countDownTimer = new CountDownTimer(timeInSec*1000,1000) {
@@ -516,15 +549,14 @@ public class PuzzleGame extends AppCompatActivity {
 
     //Time off function to start the dialog box and stoping the timer
     private void timeOver(){
-        checkImage();
+        checkImageAnswerPosition();
         totalScore = score.generateScore(correctCount);
-        score.saveHighScore(totalScore);
+        score.setScore(totalScore);
         if (won){
             openTimeOverBox();
             countDownTimer.cancel();
         }
     }
-
 
     private void timeIncrease(){
         if (isAdsPlayed){
@@ -533,9 +565,31 @@ public class PuzzleGame extends AppCompatActivity {
         }
     }
 
-
     private void goHome(){
         startActivity(new Intent(getApplicationContext(), GameHome.class));
         finish();
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void updateImageActiveLevel(){
+        switch (activity){
+
+            case "car":{
+                imageLevel.setActiveLevel(1);
+            }
+            break;
+            case "animal":{
+                imageLevel.setActiveLevel(2);
+            }
+            break;
+            case "enemy":{
+                imageLevel.setActiveLevel(3);
+            }
+            break;
+            case "space":{
+                imageLevel.setActiveLevel(4);
+            }
+            break;
+        }
     }
 }

@@ -14,6 +14,10 @@ public class Score {
 
     public int getScore() {
         return sharedPreferences.getInt(SCORE,0);
+    }
+
+    public void setScore(int score) {
+        sharedPreferences.edit().putInt(SCORE, score).apply();
 
     }
 

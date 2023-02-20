@@ -11,7 +11,7 @@
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
+        android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -73,33 +73,49 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:orientation="vertical"
+        app:layout_constraintVertical_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingBottom="50dp"
             android:gravity="center">
             <TextView
                 android:id="@+id/one"
-                style="@style/imageBoxGameHome"
-                android:background="@drawable/animal"
-                android:scaleType="centerCrop"
-                android:adjustViewBounds ="true"/>
-
-            <TextView
-                android:id="@+id/two"
                 style="@style/imageBoxGameHome"
                 android:background="@drawable/car"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds ="true"/>
 
             <TextView
+                android:id="@+id/two"
+                style="@style/imageBoxGameHome"
+                android:background="@drawable/animal"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds ="true"/>
+
+            <TextView
                 android:id="@+id/three"
+                style="@style/imageBoxGameHome"
+                android:background="@drawable/enemy"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds ="true"/>
+
+            <TextView
+                android:id="@+id/four"
+                style="@style/imageBoxGameHome"
+                android:background="@drawable/space"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds ="true"/>
+
+            <TextView
+                android:id="@+id/five"
                 style="@style/imageBoxGameHome"
                 android:background="@drawable/fruit"
                 android:scaleType="centerCrop"

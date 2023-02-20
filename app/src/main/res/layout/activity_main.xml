@@ -8,15 +8,15 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="100dp"
-        android:src="@drawable/ip_logo"
+        android:src="@drawable/element_logo"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
+<!--    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -27,6 +27,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="15dp"/>
+        android:layout_marginBottom="15dp"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
