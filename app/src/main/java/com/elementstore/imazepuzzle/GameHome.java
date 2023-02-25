@@ -2,10 +2,17 @@ package com.elementstore.imazepuzzle;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.net.URI;
 
 public class GameHome extends AppCompatActivity {
 
@@ -16,11 +23,16 @@ public class GameHome extends AppCompatActivity {
     Score score;
     ImageLevel imageLevel;
 
+    SharedPreferences ratePref;
+
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_home);
+
+        ratePref = getSharedPreferences("rateData", MODE_PRIVATE);
+        boolean rate = ratePref.getBoolean("rate", false);
 
         score = new Score(this);
         imageLevel = new ImageLevel(this);
@@ -45,6 +57,17 @@ public class GameHome extends AppCompatActivity {
             }
 
         }
+
+        if (!rate && imageLevel.getActiveLevel()[4]){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    openRateBox();
+                }
+            },2000);
+
+        }
+
 
         levelButton[0].setOnClickListener(view -> {
 
@@ -74,6 +97,39 @@ public class GameHome extends AppCompatActivity {
 
             startActivity(new Intent(getApplicationContext(), PuzzleGame.class).putExtra("activity", "fruit"));
                 finish();
+        });
+
+
+    }
+
+    private void openRateBox(){
+
+        AlertDialog.Builder dialogBox = new AlertDialog.Builder(GameHome.this);
+        View view = getLayoutInflater().inflate(R.layout.rate_dialog_box, null);
+
+        TextView okay,notAsk;
+
+        okay = view.findViewById(R.id.okay);
+        notAsk = view.findViewById(R.id.notAsk);
+
+        dialogBox.setView(view);
+
+        final AlertDialog alertDialog = dialogBox.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
+        alertDialog.setCancelable(false);
+
+        okay.setOnClickListener(view1 -> {
+            ratePref.edit().putBoolean("rate",true).apply();
+            Uri link = Uri.parse("https://play.google.com/store/apps/details?id="+getApplicationContext().getPackageName());
+            System.out.println(link);
+            startActivity(new Intent(Intent.ACTION_VIEW, link));
+            alertDialog.cancel();
+        });
+
+        notAsk.setOnClickListener(views -> {
+            ratePref.edit().putBoolean("rate",true).apply();
+            alertDialog.cancel();
         });
 
 

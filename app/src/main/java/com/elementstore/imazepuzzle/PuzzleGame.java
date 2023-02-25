@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.FullScreenContentCallback;
@@ -113,7 +114,7 @@ public class PuzzleGame extends AppCompatActivity {
         });
 
         mAdView = findViewById(R.id.adView);
-        mAdView.loadAd(adRequest);
+        loadGameBannerAds();
 
         originalImage = findViewById(R.id.originalImageShow);
 
@@ -165,6 +166,9 @@ public class PuzzleGame extends AppCompatActivity {
         clickLeft.setOnClickListener(view -> swipeRight());
 
         clickRight.setOnClickListener(view -> swipeLeft());
+
+
+        loadTimeRewardAds();
 
 
     }
@@ -222,7 +226,7 @@ public class PuzzleGame extends AppCompatActivity {
             imageBoxPositions[0][2].setX(0);
             imageBoxPositions[0][2].setY(2);
 //            checkImage();
-            timeOver();
+            checkGameWon();
 
         }else if (emptyBoxPosition[0] == 1 || emptyBoxPosition[0] == 2){
 
@@ -298,6 +302,8 @@ public class PuzzleGame extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "You won.",Toast.LENGTH_SHORT).show();
                         won = true;
                     }
+                    totalScore = score.generateScore(correctCount);
+                    score.setScore(totalScore);
 
                 }
             }
@@ -355,54 +361,41 @@ public class PuzzleGame extends AppCompatActivity {
         }
         swipeUp();
         swipeRight();
-        for (int p = 0; p<5;p++){
+        for (int p = 0; p<20;p++){
             int random = (int)( Math.random()*10)%4;
+            System.out.println(".                   random "+random);
+            if (random == 0) {
+                swipeRight();
+                swipeDown();
+                swipeLeft();
+                swipeUp();
+            }else if (random == 1){
+                swipeDown();
+                swipeLeft();
+                swipeUp();
+                swipeRight();
+            }else if (random == 2){
+                swipeUp();
+                swipeRight();
+                swipeDown();
+                swipeLeft();
 
-            switch (random){
-                case 0:{
-                    swipeRight();
-                    swipeDown();
-                    swipeLeft();
-                    swipeUp();
-                }
-                break;
-                case 1:{
-                    swipeDown();
-                    swipeLeft();
-                    swipeUp();
-                    swipeRight();
-                }
-                break;
-                case 2:{
-                    swipeUp();
-                    swipeRight();
-                    swipeDown();
-                    swipeLeft();
+            }else if (random == 3){
+                swipeUp();
+                swipeLeft();
+                swipeDown();
+                swipeRight();
 
-                }
-                break;
-                case 3:{
-                    swipeUp();
-                    swipeLeft();
-                    swipeDown();
-                    swipeRight();
-
-                }
-                break;
             }
-
-            swipeLeft();
-            swipeLeft();
-            swipeDown();
-            swipeDown();
-            swipeDown();
-
         }
+        swipeLeft();
+        swipeDown();
+        swipeDown();
     }
 
     //Opening the time over box to show ads or collect the coin earned by user
     @SuppressLint("SetTextI18n")
-    private void openTimeOverBox(){
+    private void openDialogBox(){
 
         AlertDialog.Builder dialogBox = new AlertDialog.Builder(PuzzleGame.this);
         View view = getLayoutInflater().inflate(R.layout.time_over_dialog, null);
@@ -433,62 +426,6 @@ public class PuzzleGame extends AppCompatActivity {
         alertDialog.show();
         alertDialog.setCancelable(false);
 
-        // Timer ads reload on every time over box
-        RewardedAd.load(this, getResources().getString(R.string.addTimeRewardAds), adRequest, new RewardedAdLoadCallback() {
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                // Handle the error.
-                Log.d(TAG, loadAdError.toString());
-                timeRewardAds = null;
-            }
-
-            @Override
-            public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
-                timeRewardAds = rewardedAd;
-
-                timeRewardAds.setFullScreenContentCallback(new FullScreenContentCallback() {
-                    @Override
-                    public void onAdClicked() {
-                        // Called when a click is recorded for an ad.
-                        Log.d(TAG, "Ad was clicked.");
-                    }
-
-                    @Override
-                    public void onAdDismissedFullScreenContent() {
-                        // Called when ad is dismissed.
-                        // Set the ad reference to null so you don't show the ad a second time.
-                        Log.d(TAG, "Ad dismissed fullscreen content.");
-                        isAdsPlayed = true;
-                        timeIncrease();
-//                                Toast.makeText(getApplicationContext(), "done dishmissed ads", Toast.LENGTH_SHORT).show();
-                        timeRewardAds = null;
-                    }
-
-                    @Override
-                    public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                        // Called when ad fails to show.
-                        Log.e(TAG, "Ad failed to show fullscreen content.");
-                        timeRewardAds = null;
-                    }
-
-                    @Override
-                    public void onAdImpression() {
-                        // Called when an impression is recorded for an ad.
-                        Log.d(TAG, "Ad recorded an impression.");
-//                        Toast.makeText(getApplicationContext(), "impression full ads", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                    @Override
-                    public void onAdShowedFullScreenContent() {
-                        // Called when ad is shown.
-                        Log.d(TAG, "Ad showed fullscreen content.");
-//                        Toast.makeText(getApplicationContext(), "ads showed full ads", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-            }
-        });
 
         earnedScore.setText(totalScore+"");
 
@@ -501,6 +438,7 @@ public class PuzzleGame extends AppCompatActivity {
 //                    int rewardAmount = rewardItem.getAmount();
 //                    String rewardType = rewardItem.getType();
                     alertDialog.dismiss();
+                    loadTimeRewardAds();
                 });
             } else {
                 Toast.makeText(getApplicationContext(), "Time Reward is Not Ready", Toast.LENGTH_SHORT).show();
@@ -520,6 +458,7 @@ public class PuzzleGame extends AppCompatActivity {
 //                timeInSec =5;
 //                countDownTimer.start();
                 goHome();
+                countDownTimer.cancel();
 
             }
             alertDialog.dismiss();
@@ -541,25 +480,29 @@ public class PuzzleGame extends AppCompatActivity {
             @Override
             public void onFinish() {
                 timer.setText("0");
-                timeOver();
-                openTimeOverBox();
+                onTimeOver();
             }
         }.start();
     }
 
-    //Time off function to start the dialog box and stoping the timer
-    private void timeOver(){
+    private void onTimeOver(){
         checkImageAnswerPosition();
-        totalScore = score.generateScore(correctCount);
-        score.setScore(totalScore);
+        openDialogBox();
+        countDownTimer.cancel();
+
+    }
+
+    private void checkGameWon(){
+        checkImageAnswerPosition();
         if (won){
-            openTimeOverBox();
+            openDialogBox();
             countDownTimer.cancel();
         }
     }
 
     private void timeIncrease(){
         if (isAdsPlayed){
+            loadTimeRewardAds();
             timeInSec = 60;
             startTimer();
         }
@@ -591,5 +534,107 @@ public class PuzzleGame extends AppCompatActivity {
             }
             break;
         }
+    }
+
+    private void loadTimeRewardAds(){
+
+        // Timer ads reload on every time over box
+        RewardedAd.load(this, getResources().getString(R.string.addTimeRewardAds), adRequest, new RewardedAdLoadCallback() {
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                // Handle the error.
+                Log.d(TAG, "here: "+loadAdError.toString());
+                timeRewardAds = null;
+            }
+
+            @Override
+            public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+                timeRewardAds = rewardedAd;
+
+                timeRewardAds.setFullScreenContentCallback(new FullScreenContentCallback() {
+                    @Override
+                    public void onAdClicked() {
+                        // Called when a click is recorded for an ad.
+                        Log.d(TAG, "Ad was clicked.");
+                    }
+
+                    @Override
+                    public void onAdDismissedFullScreenContent() {
+                        // Called when ad is dismissed.
+                        // Set the ad reference to null so you don't show the ad a second time.
+                        Log.d(TAG, "Ad dismissed fullscreen content.");
+                        isAdsPlayed = true;
+                        timeRewardAds = null;
+                        timeIncrease();
+                        loadGameBannerAds();
+//                                Toast.makeText(getApplicationContext(), "done dishmissed ads", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                        // Called when ad fails to show.
+                        Log.e(TAG, "Ad failed to show fullscreen content.");
+                        timeRewardAds = null;
+                    }
+
+                    @Override
+                    public void onAdImpression() {
+                        // Called when an impression is recorded for an ad.
+                        Log.d(TAG, "Ad recorded an impression.");
+//                        Toast.makeText(getApplicationContext(), "impression full ads", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onAdShowedFullScreenContent() {
+                        // Called when ad is shown.
+                        Log.d(TAG, "Ad showed fullscreen content.");
+//                        Toast.makeText(getApplicationContext(), "ads showed full ads", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        });
+    }
+
+    private void loadGameBannerAds(){
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+            }
+
+            @Override
+            public void onAdFailedToLoad(LoadAdError adError) {
+                // Code to be executed when an ad request fails.
+                System.out.println("here failed.");
+//                loadGameBannerAds();
+            }
+
+            @Override
+            public void onAdImpression() {
+                // Code to be executed when an impression is recorded
+                // for an ad.
+            }
+
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+        });
+        mAdView.loadAd(adRequest);
     }
 }
