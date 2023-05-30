@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="allControlButton">70dp</dimen>
+    <dimen name="allPuzzleBoxFive">60dp</dimen>
+</resources>

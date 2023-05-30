@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="20dp"
-        android:background="@drawable/small_round_box"
+        android:background="@drawable/board_layout"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,8 +29,8 @@
             android:text="Try Again"
             android:textAllCaps="true"
             android:textSize="35dp"
-            android:fontFamily="@font/crotah_free_version"
-            android:textColor="@color/purpleText"
+            android:fontFamily="@font/boffossi"
+            android:textColor="@color/redText"
             android:gravity="center"/>
 
 
@@ -48,11 +49,11 @@
                 android:layout_height="110dp"
                 android:gravity="center"
                 android:text="00"
-                android:textColor="@color/gray"
+                android:textColor="@color/darkCyan"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:fontFamily="@font/roboto_medium"
-                android:textSize="30dp"
+                android:fontFamily="@font/boffossi"
+                android:textSize="25dp"
                 android:background="@drawable/score"/>
 
 
@@ -72,10 +73,10 @@
                 android:text="+60 SEC"
                 android:textSize="25dp"
                 android:layout_marginStart="5dp"
-                android:textColor="@color/darkGreen"
-                android:background="@drawable/round_with_border"
+                android:textColor="@color/darkCyan"
+                android:background="@drawable/button_design"
                 android:gravity="center"
-                android:fontFamily="@font/crotah_free_version"
+                android:fontFamily="@font/boffossi"
                 />
 
         </LinearLayout>
@@ -89,10 +90,10 @@
             android:textSize="25dp"
             android:textAllCaps="true"
             android:layout_marginStart="5dp"
-            android:textColor="@color/darkGreen"
-            android:background="@drawable/round_with_border"
+            android:textColor="@color/darkCyan"
+            android:background="@drawable/button_design"
             android:gravity="center"
-            android:fontFamily="@font/crotah_free_version"
+            android:fontFamily="@font/boffossi"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/timeIncrease"

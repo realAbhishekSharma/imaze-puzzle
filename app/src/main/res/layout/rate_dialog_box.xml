@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_margin="20dp"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:background="@drawable/small_round_box"
+        android:background="@drawable/board_layout"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,8 +23,8 @@
             android:layout_height="wrap_content"
             android:text="Rate Us"
             android:textSize="20dp"
-            android:textColor="@color/purpleText"
-            android:fontFamily="@font/crotah_free_version"
+            android:textColor="@color/redText"
+            android:fontFamily="@font/boffossi"
             android:textAllCaps="true"
             android:textStyle="bold"
             android:layout_margin="10dp"/>
@@ -36,29 +37,29 @@
             <TextView
                 android:id="@+id/okay"
                 android:layout_width="100dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:text="Ok"
-                android:textColor="@color/darkGreen"
+                android:textColor="@color/darkCyan"
                 android:layout_marginEnd="5dp"
                 android:gravity="center"
                 android:textAllCaps="true"
                 android:textSize="18dp"
-                android:background="@drawable/round_with_border"
-                android:fontFamily="@font/crotah_free_version"
+                android:background="@drawable/button_design"
+                android:fontFamily="@font/boffossi"
                 android:padding="10dp"/>
 
             <TextView
                 android:id="@+id/notAsk"
                 android:layout_width="150dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:text="Don't Ask"
-                android:textColor="@color/darkGreen"
+                android:textColor="@color/darkCyan"
                 android:layout_marginStart="5dp"
                 android:gravity="center"
                 android:textAllCaps="true"
                 android:textSize="18dp"
-                android:background="@drawable/round_with_border"
-                android:fontFamily="@font/crotah_free_version"
+                android:background="@drawable/button_design"
+                android:fontFamily="@font/boffossi"
                 android:padding="10dp"/>
 
         </LinearLayout>

@@ -8,6 +8,27 @@
 <!--        <item name="android:layout_margin">2dp</item>-->
     </style>
 
+    <style name="puzzleBoxFour">
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:background">@drawable/small_image_box</item>
+        <item name="android:gravity">center</item>
+<!--        <item name="android:backgroundTint">@color/red</item>-->
+        <item name="android:textColor">@color/black</item>
+        <!--        <item name="android:layout_margin">2dp</item>-->
+    </style>
+
+    <style name="puzzleBoxFive">
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_width">60dp</item>
+        <item name="android:background">@drawable/small_image_box</item>
+        <item name="android:gravity">center</item>
+<!--        <item name="android:backgroundTint">@color/red</item>-->
+        <item name="android:textColor">@color/green</item>
+        <!--        <item name="android:layout_margin">2dp</item>-->
+    </style>
+
+
     <style name="buttonDesign">
         <item name="android:layout_height">50dp</item>
         <item name="android:layout_width">50dp</item>
@@ -30,7 +51,15 @@
         <item name="android:layout_width">70dp</item>
         <item name="android:background">@drawable/small_round_box</item>
         <item name="android:gravity">center</item>
-        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_margin">5dp</item>
     </style>
+
+    <style name="gridLevelBox">
+        <item name="android:layout_width">130dp</item>
+        <item name="android:layout_height">130dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 
 </resources>

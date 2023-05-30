@@ -6,26 +6,46 @@ import android.content.SharedPreferences;
 public class ImageLevel {
     private final String DATABASE = "corruptedFile";
     private final String LEVEL = "Level";
-    boolean[] activeLevel = new boolean[5];
+    boolean[] activeLevel;
+    private int level;
     private final SharedPreferences sharedPreferences;
 
+    private ImageIdList idList;
 
     public ImageLevel(Context context) {
         sharedPreferences = context.getSharedPreferences(DATABASE,Context.MODE_PRIVATE);
-        for (int i =0; i<5; i++){
+        this.idList = new ImageIdList();
+        this.level = this.idList.getImageIdCount();
+        this.activeLevel = new boolean[level];
+        for (int i =0; i<this.level; i++){
             activeLevel[i] = false;
         }
     }
 
-    public void setActiveLevel(int levelIndex){
-        activeLevel[levelIndex] = true;
-        sharedPreferences.edit().putBoolean(LEVEL+""+levelIndex, activeLevel[levelIndex]).apply();
+    public void setActiveLevel(int size, int levelIndex){
+        if (levelIndex<level) {
+            if (size == 3 && levelIndex == 11){
+                activeLevel[0] = true;
+                sharedPreferences.edit().putBoolean(LEVEL +""+size+ "" + 0, activeLevel[0]).apply();
+            }else if (size == 4 && levelIndex == 6){
+                activeLevel[0] = true;
+                sharedPreferences.edit().putBoolean(LEVEL +""+size+ "" + 0, activeLevel[0]).apply();
+            }else if (size == 5 && levelIndex == 4){
+                activeLevel[0] = true;
+                sharedPreferences.edit().putBoolean(LEVEL +""+size+ "" + 0, activeLevel[0]).apply();
+            }
+
+            activeLevel[levelIndex] = true;
+            sharedPreferences.edit().putBoolean(LEVEL +""+size+ "" + levelIndex, activeLevel[levelIndex]).apply();
+        }
     }
 
-    public boolean[] getActiveLevel(){
-        for (int i =0; i<5; i++){
-            activeLevel[i] = sharedPreferences.getBoolean(LEVEL+""+i, false);
+
+    public boolean[] getActiveLevel(int size){
+        for (int i =0; i<this.level; i++){
+            activeLevel[i] = sharedPreferences.getBoolean(LEVEL +""+size+""+i, false);
         }
+        activeLevel[1] = true;
         return activeLevel;
     }
 }

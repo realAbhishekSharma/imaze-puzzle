@@ -8,11 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FFFF0000</color>
-    <color name="green">#FF00FF00</color>
+    <color name="green">#01DF01</color>
     <color name="cyan">#03A9F4</color>
     <color name="purpleText">#AC1DAC</color>
 
     <color name="transparent">#00000000</color>
+    <color name="transparent40">#66000000</color>
     <color name="grayBackground">#EDEDED</color>
     <color name="gray">#989898</color>
     <color name="darkGray">#808080</color>
@@ -20,7 +21,14 @@
     <color name="gray80">#FFCCCCCC</color>
     <color name="gray70">#FFB3B3B3</color>
 
-
     <color name="green20">#33CC33</color>
     <color name="darkGreen">#1E8A00</color>
+
+    <color name="darkCyan">#000066</color>
+    <color name="deepCyan">#008BD1</color>
+    <color name="mainCyan">#26B7FF</color>
+    <color name="skyCyan">#00CCFF</color>
+    <color name="lightCyan">#A7EDFF</color>
+    <color name="redText">#E91E63</color>
+
 </resources>
