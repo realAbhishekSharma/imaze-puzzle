@@ -22,8 +22,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,17 +31,23 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.elementstore.imazepuzzle.ControllerKeyboard;
 import com.elementstore.imazepuzzle.ImageBoxPosition;
 import com.elementstore.imazepuzzle.ImageIdList;
 import com.elementstore.imazepuzzle.ImageLevel;
 import com.elementstore.imazepuzzle.ImageSlicer;
 import com.elementstore.imazepuzzle.R;
-import com.elementstore.imazepuzzle.Score;
-import com.elementstore.imazepuzzle.SliderBoxTheme;
+import com.elementstore.imazepuzzle.dialogs.LargeImageDialog;
+import com.elementstore.imazepuzzle.dialogs.TImeOverDialog;
+import com.elementstore.imazepuzzle.services.Coins;
+import com.elementstore.imazepuzzle.services.Mission;
+import com.elementstore.imazepuzzle.services.PlayerLife;
+import com.elementstore.imazepuzzle.services.SliderBoxTheme;
 import com.elementstore.imazepuzzle.SwipeMotionGesture;
+import com.elementstore.imazepuzzle.services.SoundAndVibration;
 import com.github.drjacky.imagepicker.ImagePicker;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
@@ -54,62 +60,78 @@ import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
 import java.io.IOException;
-import java.util.List;
 
 public class ThreePuzzleGame extends AppCompatActivity {
 
-
-    long timeInSec=61;
-    int correctCount = 0;
-    int totalScore = 0;
-    final int PUZZLE_SIZE = 3;
-    ImageIdList imageIdList;
-    CountDownTimer countDownTimer;
-    ProgressBar timerProgress;
-    int[][] imagePosition = {
+    private long timeInSec=61;
+    private int totalTimeSpend = 0;
+    private int correctCount = 0;
+    private int totalEarnedCoins = 0;
+    private final int PUZZLE_SIZE = 3;
+    private ImageIdList imageIdList;
+    private CountDownTimer countDownTimer;
+    private ProgressBar timerProgress;
+    private int[][] imagePosition = {
             {R.id.oneOne, R.id.oneTwo, R.id.oneThree},
             {R.id.twoOne, R.id.twoTwo, R.id.twoThree},
             {R.id.threeOne, R.id.threeTwo, R.id.threeThree},
     };
 
-    Bitmap [][] puzzleImageList;
+    private Bitmap [][] puzzleImageList;
 
-    int[] emptyBoxPosition = {-1,-1};
+    private int[] emptyBoxPosition = {-1,-1};
 
-    ImageView[][] imageBox;
-    ImageView originalImage;
-    TextView timer, levelView, emptyBox;
-    TextView clickUp, clickDown, clickLeft, clickRight;
+    private ImageView[][] imageBox;
+    private ImageView originalImage;
+    private TextView timer, levelView;
+    private ImageView emptyBox;
 
-    GestureDetector gestureDetector;
+    private GestureDetector gestureDetector;
 
-    ImageBoxPosition[][] imageBoxPositions = new ImageBoxPosition[PUZZLE_SIZE][PUZZLE_SIZE];
+    private ImageBoxPosition[][] imageBoxPositions = new ImageBoxPosition[PUZZLE_SIZE][PUZZLE_SIZE];
 
-    AdRequest adRequest = new AdRequest.Builder().build();
+    private AdRequest adRequest = new AdRequest.Builder().build();
 
-    RewardedAd timeRewardAds;
+    private RewardedAd timeRewardAds;
 
-    AdView mAdView;
+    private AdView mAdView;
 
-    Score score;
-    ImageLevel imageLevel;
-    boolean isAdsPlayed, won;
+    private Coins coins;
+    private ImageLevel imageLevel;
+    private boolean isAdsPlayed, won;
 
-    int selectedGameLevel;
+    private int selectedGameLevel;
+    private boolean isKeyEnable = false;
+    private View keyBoardLayout;
 
-    ImageView keypadSwitch;
-    boolean isKeyEnable = false;
-    LinearLayout keyBoardLayout;
+    private ControllerKeyboard controllerKeyboard;
+    private SoundAndVibration soundAndVibration;
 
-    SliderBoxTheme sliderBoxTheme;
+    private SliderBoxTheme sliderBoxTheme;
+    private TImeOverDialog tImeOverDialog;
+    private LargeImageDialog largeImageDialog;
+    private PlayerLife playerLife;
+    private Mission mission;
+    private boolean isCustomImage = false;
+    private boolean backState = false;
     @Override
     public void onBackPressed() {
         try {
-            goHome();
-            countDownTimer.cancel();
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            Toast.makeText(getApplicationContext(), "ran a problem.", Toast.LENGTH_SHORT).show();
+            if (!backState){
+                backState = true;
+                Toast.makeText(this, "Press again back to exit.", Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        backState = false;
+                    }
+                },3000);
+            }else {
+                goHome();
+                countDownTimer.cancel();
+            }
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -121,9 +143,13 @@ public class ThreePuzzleGame extends AppCompatActivity {
         getWindow().setStatusBarColor(getColor(R.color.deepCyan));
 
 
-        score = new Score(this);
+        coins = new Coins(this);
         imageLevel = new ImageLevel(this);
+        soundAndVibration = new SoundAndVibration(this);
         sliderBoxTheme = new SliderBoxTheme(this);
+        largeImageDialog = new LargeImageDialog(this);
+        playerLife = new PlayerLife(this);
+        mission = new Mission(this);
 
         Intent intent = getIntent();
         selectedGameLevel = intent.getIntExtra("level",1);
@@ -141,38 +167,9 @@ public class ThreePuzzleGame extends AppCompatActivity {
         levelView = findViewById(R.id.levelViewThree);
         timerProgress = findViewById(R.id.timerProgressBar);
         emptyBox = findViewById(R.id.emptyBox);
-        emptyBox.setBackgroundTintList(ColorStateList.valueOf(sliderBoxTheme.getColor()));
 
-        clickUp = findViewById(R.id.clickUp);
-        clickDown = findViewById(R.id.clickDown);
-        clickLeft = findViewById(R.id.clickLeft);
-        clickRight = findViewById(R.id.clickRight);
-        keypadSwitch = findViewById(R.id.keySwitchThree);
         keyBoardLayout = findViewById(R.id.keyLayoutThree);
-
-        keypadSwitch.setEnabled(false);
-
-        keypadSwitch.setOnClickListener(view -> {
-            Animation topSlideAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.from_top);
-            Animation bottomSlideAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.from_bottom);
-            topSlideAnimation.setDuration(150);
-            bottomSlideAnimation.setDuration(150);
-
-            if (isKeyEnable){
-                isKeyEnable = false;
-                keypadSwitch.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.lightCyan)));
-                keyBoardLayout.setAnimation(bottomSlideAnimation);
-                keyBoardLayout.setVisibility(View.GONE);
-
-            }else {
-                isKeyEnable = true;
-                keypadSwitch.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.mainCyan)));
-                keyBoardLayout.setVisibility(View.VISIBLE);
-                keyBoardLayout.setAnimation(topSlideAnimation);
-
-            }
-        });
-
+        originalImage.setEnabled(false);
         imageIdList = new ImageIdList();
 
         Bitmap selectedResourceBitmap;
@@ -187,10 +184,13 @@ public class ThreePuzzleGame extends AppCompatActivity {
                                 Bitmap selectedBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),uri);
                                 ImageSlicer imageSlicer = new ImageSlicer(selectedBitmap, PUZZLE_SIZE);
                                 puzzleImageList = imageSlicer.getSlicedStrokedImage(5,15, Color.parseColor("#FFFFFF"));
+                                emptyBox.setImageBitmap(imageSlicer.getEmptyBoxImage(puzzleImageList[0][0],5,15, sliderBoxTheme.getActiveThemeColor(),Color.parseColor("#FFFFFF")));
 
                                 startGame();
                                 levelView.setText("CI");
+                                isCustomImage = true;
                                 originalImage.setImageBitmap(selectedBitmap);
+                                largeImageDialog.setImagePreviewImage(selectedBitmap);
 
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
@@ -200,6 +200,7 @@ public class ThreePuzzleGame extends AppCompatActivity {
                             goHome();
                             // Use ImagePicker.Companion.getError(result.getData()) to show an error
                         }else if (result.getResultCode()== RESULT_CANCELED){
+                            goHome();
                             Toast.makeText(getApplicationContext(), "No Image Selected.", Toast.LENGTH_SHORT).show();
 
                         }
@@ -219,22 +220,47 @@ public class ThreePuzzleGame extends AppCompatActivity {
             selectedResourceBitmap = Bitmap.createBitmap(selectedResourceBitmap, cropBy,cropBy,selectedResourceBitmap.getWidth()-2*cropBy, selectedResourceBitmap.getHeight()-2*cropBy);
             ImageSlicer imageSlicer = new ImageSlicer(selectedResourceBitmap, PUZZLE_SIZE);
             puzzleImageList = imageSlicer.getSlicedStrokedImage(13,40, getColor(R.color.white));
+            emptyBox.setImageBitmap(imageSlicer.getEmptyBoxImage(puzzleImageList[0][0],13,40, sliderBoxTheme.getActiveThemeColor(),Color.parseColor("#FFFFFF")));
+
             startGame();
             levelView.setText(selectedGameLevel+"");
             originalImage.setBackground(getDrawable(imageIdList.getImageId(selectedGameLevel)));
+            largeImageDialog.setImagePreviewImage(getDrawable(imageIdList.getImageId(selectedGameLevel)));
         }
 
+        originalImage.setOnClickListener(view -> {
+            soundAndVibration.doClickVibration();
+            soundAndVibration.playNormalClickSound();
+            largeImageDialog.openLargeImage();
+        });
 
 
+        controllerKeyboard = new ControllerKeyboard(this, keyBoardLayout, new ControllerKeyboard.KeyPressedListener() {
+            @Override
+            public void onLeftKey(View view) {
+                soundAndVibration.doClickVibration();
+                swipeRight();
+            }
 
+            @Override
+            public void onRightKey(View view) {
+                soundAndVibration.doClickVibration();
+                swipeLeft();
+            }
 
-        clickDown.setOnClickListener(view -> swipeUp());
+            @Override
+            public void onUpKey(View view) {
+                soundAndVibration.doClickVibration();
+                swipeDown();
+            }
 
-        clickUp.setOnClickListener(view -> swipeDown());
+            @Override
+            public void onDownKey(View view) {
+                soundAndVibration.doClickVibration();
+                swipeUp();
+            }
+        });
 
-        clickLeft.setOnClickListener(view -> swipeRight());
-
-        clickRight.setOnClickListener(view -> swipeLeft());
 
         gestureDetector = new GestureDetector(this, new SwipeMotionGesture(){
             @Override
@@ -258,7 +284,37 @@ public class ThreePuzzleGame extends AppCompatActivity {
             }
         });
 
-        loadTimeRewardAds();
+        tImeOverDialog = new TImeOverDialog(this, new TImeOverDialog.BoxItemClick() {
+            @Override
+            public void onAddTimeFromAds(View view) {
+                addTimeFromAds();
+            }
+
+            @Override
+            public void onAddTimeFromCoins(View view) {
+
+            }
+
+            @Override
+            public void onGoHome(View view) {
+                if (won) {
+                    coins.addCoin(totalEarnedCoins);
+                    playerLife.increaseLife();
+                    countDownTimer.cancel();
+                    updateImageActiveLevel();
+                    updatePlayedCount();
+                    goHome();
+                } else {
+//                timeInSec =5;
+//                countDownTimer.start();
+                    goHome();
+                    countDownTimer.cancel();
+
+                }
+                tImeOverDialog.closeBox();
+
+            }
+        });
     }
 
     @Override
@@ -271,7 +327,6 @@ public class ThreePuzzleGame extends AppCompatActivity {
 
 
     public void startGame(){
-
         try {
             for (int x = 0; x < PUZZLE_SIZE; x++) {
                 for (int y = 0; y < PUZZLE_SIZE; y++) {
@@ -293,7 +348,7 @@ public class ThreePuzzleGame extends AppCompatActivity {
 //            shuffleImageBoxPosition();
             setSmallImageBoxBackground();
             startTimer();
-            keypadSwitch.setEnabled(true);
+            originalImage.setEnabled(true);
             visibilityForKeyBoardLayout();
         },10);
 
@@ -321,6 +376,10 @@ public class ThreePuzzleGame extends AppCompatActivity {
             imageBoxPositions[imageX][imageY].setX(imageX);
             imageBoxPositions[imageX][imageY].setY(imageY);
 
+            if (totalTimeSpend>1) {
+                soundAndVibration.playBoxSlideSound();
+            }
+
         }else if (emptyBoxPosition[0] == 0 || emptyBoxPosition[0] == 1){
             int xx = emptyBoxPosition[0];
             int yy = emptyBoxPosition[1];
@@ -331,7 +390,6 @@ public class ThreePuzzleGame extends AppCompatActivity {
             imageBoxPositions[xx][yy].setY(imageBoxPositions[emptyBoxPosition[0]][emptyBoxPosition[1]].getY());
             System.out.println("value "+xx+" "+yy+" "+emptyBoxPosition[0]);
         }
-
     }
 
     private void swipeDown(){
@@ -354,6 +412,10 @@ public class ThreePuzzleGame extends AppCompatActivity {
 
             imageBoxPositions[imageX][imageY].setX(imageX);
             imageBoxPositions[imageX][imageY].setY(imageY);
+
+            if (totalTimeSpend>1) {
+                soundAndVibration.playBoxSlideSound();
+            }
 //            checkImage();
             checkGameWon();
 
@@ -396,6 +458,8 @@ public class ThreePuzzleGame extends AppCompatActivity {
         }
     }
 
+
+
     private void swapImageAndEmptyBox(int i, int j){
         float x = emptyBox.getX();
         float y = emptyBox.getY();
@@ -411,22 +475,24 @@ public class ThreePuzzleGame extends AppCompatActivity {
         emptyBoxPosition[0] = i;
         emptyBoxPosition[1] = j;
 
+        if (totalTimeSpend>1) {
+            soundAndVibration.playBoxSlideSound();
+        }
 
     }
 
     private void checkImageAnswerPosition(){
         correctCount =0;
-        for (int x =0; x<3; x++){
-            for (int y = 0; y<3; y++){
+        for (int x =0; x<PUZZLE_SIZE; x++){
+            for (int y = 0; y<PUZZLE_SIZE; y++){
                 if (imageBoxPositions[x][y].getX() == x && imageBoxPositions[x][y].getY() == y){
                     correctCount++;
 //                    System.out.println(correctCount);
-                    if (correctCount == 9){
+                    if (correctCount == PUZZLE_SIZE*PUZZLE_SIZE){
                         Toast.makeText(getApplicationContext(), "You won.",Toast.LENGTH_SHORT).show();
                         won = true;
                     }
-                    totalScore = score.generateScore(correctCount);
-                    score.setScore(totalScore);
+                    totalEarnedCoins = coins.generateCoins(correctCount);
 
                 }
             }
@@ -542,80 +608,6 @@ public class ThreePuzzleGame extends AppCompatActivity {
 
     }
 
-    //Opening the time over box to show ads or collect the coin earned by user
-    @SuppressLint("SetTextI18n")
-    private void openDialogBox(){
-        try {
-
-            AlertDialog.Builder dialogBox = new AlertDialog.Builder(ThreePuzzleGame.this);
-            View view = getLayoutInflater().inflate(R.layout.time_over_dialog, null);
-
-            TextView titleShow, earnedScore, goHomeButton, addTime;
-
-            titleShow = view.findViewById(R.id.titleShow);
-            earnedScore = view.findViewById(R.id.earnedScore);
-            goHomeButton = view.findViewById(R.id.goHomeButton);
-            addTime = view.findViewById(R.id.timeIncrease);
-
-
-            if (won) {
-                addTime.setVisibility(View.GONE);
-                goHomeButton.setText("Go Home");
-                titleShow.setText("You Won");
-                titleShow.setTextColor(getColor(R.color.cyan));
-            }
-
-            dialogBox.setView(view);
-
-            final AlertDialog alertDialog = dialogBox.create();
-            alertDialog.setCanceledOnTouchOutside(false);
-            alertDialog.show();
-            alertDialog.setCancelable(false);
-
-
-            earnedScore.setText(totalScore + "");
-
-            addTime.setOnClickListener(view1 -> {
-                if (timeRewardAds != null) {
-                    Activity activityContext = ThreePuzzleGame.this;
-                    timeRewardAds.show(activityContext, rewardItem -> {
-                        // Handle the reward.
-                        Log.d(TAG, "The user earned the reward.");
-//                    int rewardAmount = rewardItem.getAmount();
-//                    String rewardType = rewardItem.getType();
-                        alertDialog.dismiss();
-                        loadTimeRewardAds();
-                    });
-                } else {
-                    Toast.makeText(getApplicationContext(), "Time Reward is Not Ready", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "The rewarded ad wasn't ready yet.");
-                }
-
-
-            });
-
-            goHomeButton.setOnClickListener(view12 -> {
-                if (won) {
-                    score.setScore(totalScore);
-                    countDownTimer.cancel();
-                    updateImageActiveLevel();
-                    goHome();
-                } else {
-//                timeInSec =5;
-//                countDownTimer.start();
-                    goHome();
-                    countDownTimer.cancel();
-
-                }
-                alertDialog.dismiss();
-
-
-            });
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(), "Error in Time Box.", Toast.LENGTH_SHORT).show();
-        }
-
-    }
 
     private void startTimer(){
         countDownTimer = new CountDownTimer(timeInSec*1000,1000) {
@@ -624,6 +616,7 @@ public class ThreePuzzleGame extends AppCompatActivity {
             public void onTick(long l) {
                 timer.setText((int)l/1000+"");
                 timerProgress.setProgress((int) (1000-(l/timeInSec))/10, true);
+                totalTimeSpend++;
 
             }
 
@@ -634,11 +627,28 @@ public class ThreePuzzleGame extends AppCompatActivity {
                 onTimeOver();
             }
         }.start();
+        loadTimeRewardAds();
+    }
+    private void addTimeFromAds(){
+        if (timeRewardAds != null) {
+            Activity activityContext = ThreePuzzleGame.this;
+            timeRewardAds.show(activityContext, rewardItem -> {
+                // Handle the reward.
+                Log.d(TAG, "The user earned the reward.");
+//                    int rewardAmount = rewardItem.getAmount();
+//                    String rewardType = rewardItem.getType();
+                tImeOverDialog.closeBox();
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "Time Reward is Not Ready", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "The rewarded ad wasn't ready yet.");
+        }
+
     }
 
     private void onTimeOver(){
         checkImageAnswerPosition();
-        openDialogBox();
+        tImeOverDialog.openBox();
         countDownTimer.cancel();
 
     }
@@ -646,14 +656,14 @@ public class ThreePuzzleGame extends AppCompatActivity {
     private void checkGameWon(){
         checkImageAnswerPosition();
         if (won){
-            openDialogBox();
+            tImeOverDialog.setWinningContent(totalEarnedCoins);
+            tImeOverDialog.openBox();
             countDownTimer.cancel();
         }
     }
 
     private void timeIncrease(){
         if (isAdsPlayed){
-            loadTimeRewardAds();
             timeInSec = 60;
             startTimer();
         }
@@ -661,6 +671,7 @@ public class ThreePuzzleGame extends AppCompatActivity {
 
     private void goHome(){
         startActivity(new Intent(getApplicationContext(), GameHome.class));
+        mission.increaseTimeSpendInGame(totalTimeSpend-1);
         finish();
     }
 
@@ -775,19 +786,46 @@ public class ThreePuzzleGame extends AppCompatActivity {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;
-        if (height - keyBoardLayout.getY()-120>keyBoardLayout.getHeight()){
-            if (isKeyEnable){
 
-                keypadSwitch.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.mainCyan)));
+        Animation topSlideAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.from_top);
+        Animation bottomSlideAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.from_bottom);
+        topSlideAnimation.setDuration(150);
+        bottomSlideAnimation.setDuration(150);
+
+//        keyBoardLayout.setVisibility(View.INVISIBLE);
+        if (height - keyBoardLayout.getY()-120>keyBoardLayout.getHeight()){
+            isKeyEnable = soundAndVibration.getControllerType();
+            largeImageDialog.setKeyboardStatusText(true);
+            if (isKeyEnable){
+                keyBoardLayout.setAnimation(topSlideAnimation);
                 keyBoardLayout.setVisibility(View.VISIBLE);
             }else {
-                keypadSwitch.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.lightCyan)));
                 keyBoardLayout.setVisibility(View.GONE);
+                if (totalTimeSpend>2) {
+                    keyBoardLayout.setAnimation(bottomSlideAnimation);
+                }
             }
         }else {
-            keypadSwitch.setVisibility(View.GONE);
+            isKeyEnable = false;
+            largeImageDialog.setKeyboardStatusText(false);
             keyBoardLayout.setVisibility(View.GONE);
 //            Toast.makeText(getApplicationContext(), "Key Doesn't Support.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus){
+            visibilityForKeyBoardLayout();
+
+        }
+    }
+    public void updatePlayedCount(){
+        if (isCustomImage){
+            mission.increasePlayedCount(1);
+        }else {
+            mission.increasePlayedCount(3);
         }
     }
 }

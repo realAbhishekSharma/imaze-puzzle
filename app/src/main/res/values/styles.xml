@@ -49,7 +49,7 @@
     <style name="controlButton">
         <item name="android:layout_height">70dp</item>
         <item name="android:layout_width">70dp</item>
-        <item name="android:background">@drawable/small_round_box</item>
+        <item name="android:background">@drawable/round_with_border</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_margin">5dp</item>
     </style>
@@ -59,6 +59,15 @@
         <item name="android:layout_height">130dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="notificationBall">
+        <item name="android:layout_width">11dp</item>
+        <item name="android:layout_height">11dp</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:foreground">@drawable/round_with_border</item>
+        <item name="android:foregroundTint">@color/red</item>
     </style>
 
 

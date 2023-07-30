@@ -68,7 +68,6 @@ public class ImageIdList {
     }
 
     public int getImageIdCount(){
-        System.out.println(imageIdList.size()+" Image size printed here");
         return imageIdList.size();
     }
 

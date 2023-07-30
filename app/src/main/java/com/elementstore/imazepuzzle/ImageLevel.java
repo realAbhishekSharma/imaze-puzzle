@@ -48,4 +48,15 @@ public class ImageLevel {
         activeLevel[1] = true;
         return activeLevel;
     }
+
+    public int getCompletedMaxLevel(int size){
+        int count = 1;
+        for (int i =1; i<this.level; i++){
+            activeLevel[i] = sharedPreferences.getBoolean(LEVEL +""+size+""+i, false);
+            if (activeLevel[i]){
+                count++;
+            }
+        }
+        return count;
+    }
 }

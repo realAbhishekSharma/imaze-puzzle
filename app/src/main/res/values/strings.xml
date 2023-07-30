@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Imaze Puzzle</string>
     <string name="addTimeRewardAds">ca-app-pub-9842627619235895/9998125977</string>
+    <string name="addLifeRewardAds">ca-app-pub-9842627619235895/4161233831</string>
     <!--    <string name="addTimeRewardAds">ca-app-pub-3940256099942544/6300978111</string>-->
     <string name="bannerGameScreenAds">ca-app-pub-9842627619235895/8477132499</string>
     <string name="testBannerAds">ca-app-pub-3940256099942544/6300978111</string>
@@ -10,4 +11,5 @@
     <string name="customImageTextForFour">Complete 5 Level to unlock</string>
     <string name="customImageTextForFive">Complete 3 Level to unlock</string>
 
+    <string name="infinity">&#8734;</string>
 </resources>

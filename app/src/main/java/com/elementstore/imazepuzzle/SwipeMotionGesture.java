@@ -17,7 +17,6 @@ public class SwipeMotionGesture extends GestureDetector.SimpleOnGestureListener{
         float yDifference = e2.getY() - e1.getY();
 
         try{
-
             if (Math.abs(xDifference)> Math.abs(yDifference)){
                 if (Math.abs(xDifference)> threshold && Math.abs(velocityX)>velocityThreshold){
                     if (xDifference > 0){
@@ -40,7 +39,6 @@ public class SwipeMotionGesture extends GestureDetector.SimpleOnGestureListener{
                         System.out.println("Up");
                     }
                     return true;
-
                 }
             }
 

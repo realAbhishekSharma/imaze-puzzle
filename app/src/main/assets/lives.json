@@ -1,0 +1,49 @@
+{
+  "lifeOption": [
+    {
+      "name": "Ads",
+      "life" : 1,
+      "value": 0
+    },
+    {
+      "name": "+",
+      "life" : 1,
+      "value": 5000
+    },
+    {
+      "name": "Full",
+      "life" : 5,
+      "value": 20000
+    },
+    {
+      "name": "60 Min",
+      "timeInSec": 3600,
+      "life" : 0,
+      "value": 50000
+    },
+    {
+      "name": "120 Min",
+      "timeInSec": 7200,
+      "life" : 0,
+      "value": 80000
+    },
+    {
+      "name": "180 Min",
+      "timeInSec": 10800,
+      "life" : 0,
+      "value": 120000
+    },
+    {
+      "name": "300 Min",
+      "timeInSec": 18000,
+      "life" : 0,
+      "value": 200000
+    },
+    {
+      "name": "1 Day",
+      "timeInSec": 86400,
+      "life" : 0,
+      "value": 1000000
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "dailyMissions": [
+    {
+      "key": "ads",
+      "name": "Get Coins from",
+      "value": 1
+    },{
+      "key": "dailyCollect",
+      "name": "Daily Reward.",
+      "value": 2000
+    },
+    {
+      "key": "spendTime",
+      "name": "Play game for 30min.",
+      "time" : 3600,
+      "value": 2500
+    },
+    {
+      "key": "threeTimeCI1",
+      "name": "Complete Three Time Custom Image.",
+      "value": 2500
+    },
+    {
+      "key": "anyFiveTime0",
+      "name": "Complete 5 time in any mode.",
+      "value": 2500
+    },
+    {
+      "key": "threeSize",
+      "name": "Complete 3 time in 3x3 mode.",
+      "value": 2500
+    },
+    {
+      "key": "fourSize",
+      "name": "Complete 2 time in 4x4 mode.",
+      "value": 2500
+    },
+    {
+      "key": "fiveSize",
+      "name": "Complete 1 time in 5x5 mode.",
+      "value": 2500
+    }
+  ],
+  "oneTimeMissions": [
+    {
+      "name": "Complete first level 3x3",
+      "value": 1000
+    },
+    {
+      "name": "Complete first level 4x4",
+      "value": 1500
+    },
+    {
+      "name": "Complete first level 5x5",
+      "value": 2000
+    },
+    {
+      "name": "Unlock Custom Image 3x3",
+      "value": 2500
+    },
+    {
+      "name": "Unlock Custom Image 4x4",
+      "value": 3000
+    },
+    {
+      "name": "Unlock Custom Image 5x5",
+      "value": 3500
+    },
+    {
+      "name": "Unlock level 10 in 3x3",
+      "value": 4000
+    },
+    {
+      "name": "Unlock level 10 in 4x4",
+      "value": 4500
+    },
+    {
+      "name": "Unlock level 10 in 5x5",
+      "value": 5000
+    },
+    {
+      "name": "Unlock level 20 in 3x3",
+      "value": 5500
+    },
+    {
+      "name": "Unlock level 20 in 4x4",
+      "value": 6000
+    },
+    {
+      "name": "Unlock level 20 in 5x5",
+      "value": 6500
+    },
+    {
+      "name": "Unlock level 35 in 3x3",
+      "value": 7000
+    },
+    {
+      "name": "Unlock level 35 in 4x4",
+      "value": 7500
+    },
+    {
+      "name": "Unlock level 35 in 5x5",
+      "value": 8000
+    },
+    {
+      "name": "Unlock level 50 in 3x3",
+      "value": 8500
+    },
+    {
+      "name": "Unlock level 50 in 4x4",
+      "value": 9000
+    },
+    {
+      "name": "Unlock level 50 in 5x5",
+      "value": 10000
+    }
+  ]
+}
