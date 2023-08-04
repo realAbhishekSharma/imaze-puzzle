@@ -24,6 +24,7 @@ import com.elementstore.imazepuzzle.Adapter.GridViewAdapter;
 import com.elementstore.imazepuzzle.ImageIdList;
 import com.elementstore.imazepuzzle.ImageLevel;
 import com.elementstore.imazepuzzle.R;
+import com.elementstore.imazepuzzle.dialogs.UpdateRewardDialog;
 import com.elementstore.imazepuzzle.services.Coins;
 import com.elementstore.imazepuzzle.services.GameTracker;
 import com.elementstore.imazepuzzle.services.PlayerLife;
@@ -59,6 +60,7 @@ public class GameHome extends AppCompatActivity {
     PlayerLife playerLife;
 
     GameTracker gameTracker;
+    private UpdateRewardDialog updateRewardDialog;
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,7 @@ public class GameHome extends AppCompatActivity {
         imageLevel = new ImageLevel(this);
         sliderBoxTheme = new SliderBoxTheme(this);
         playerLife = new PlayerLife(this);
+        updateRewardDialog = new UpdateRewardDialog(this);
         sharedPreferences = getSharedPreferences("SizeState", MODE_PRIVATE);
 
 
@@ -102,6 +105,7 @@ public class GameHome extends AppCompatActivity {
         gridViewAdapter = new GridViewAdapter(this, levelImageList, puzzleSize);
         levelGridView.setAdapter(gridViewAdapter);
 
+        updateRewardDialog.openDialogBox();
         changeSizeSelectionBackground(puzzleSize);
 
         sizeThreeSelection.setOnClickListener(view -> {
@@ -173,6 +177,13 @@ public class GameHome extends AppCompatActivity {
                 }
             }
         });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updateRewardDialog.openDialogBox();
+            }
+        },2000);
 
         if (!rate && imageLevel.getActiveLevel(4)[4]){
             new Handler().postDelayed(this::openRateBox,2000);
