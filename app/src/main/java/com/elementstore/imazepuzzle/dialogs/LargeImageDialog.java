@@ -38,9 +38,9 @@ public class LargeImageDialog {
         root = View.inflate(context, R.layout.large_image_dialog, null);
         dialogBox.setView(root);
 
-        keyboardSwitch = root.findViewById(R.id.keyboardSwitchLargeDialog);
-        keyboardStatusView = root.findViewById(R.id.keyboardStatusTextLargeDialog);
-        imagePreview = root.findViewById(R.id.imagePreview);
+        keyboardSwitch = root.findViewById(R.id.controllerSwitchKeyMainGame);
+        keyboardStatusView = root.findViewById(R.id.controllerSwitchTextViewMainGame);
+        imagePreview = root.findViewById(R.id.largeImagePreviewMainGame);
 
         keyboardSwitch.setOnClickListener(view -> {
             soundAndVibration.changeControllerType();

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.SettingsFragment">
+
+    <LinearLayout
+        android:id="@+id/topHeadingTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/controllerSwitchKeySetting"
+            android:layout_width="300dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/long_setting_box">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/jolly_lodger_regular"
+                android:textSize="30dp"
+                android:layout_marginStart="50dp"
+                android:text="Controller"
+                android:textColor="@color/darkBlue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/controllerSwitchTextView"
+                android:layout_width="80dp"
+                android:layout_height="27dp"
+                android:layout_marginEnd="40dp"
+                android:fontFamily="@font/jolly_lodger_regular"
+                android:textSize="17dp"
+                android:gravity="center"
+                android:text="Button"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:background="@drawable/round_with_border"
+                android:backgroundTint="@color/darkBlue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sliderBoxSwitchKeySetting"
+            android:layout_width="300dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/long_setting_box">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/jolly_lodger_regular"
+                android:textSize="30dp"
+                android:layout_marginStart="50dp"
+                android:text="Slider Color"
+                android:textColor="@color/darkBlue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/sliderBoxColorView"
+                android:layout_width="50dp"
+                android:layout_height="27dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/round_with_border"
+                android:backgroundTint="@color/cyan"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="30dp">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/soundSwitchKeySetting"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/round_button"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
+            <TextView
+                android:id="@+id/soundSwitchIconView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintHorizontal_bias="0.43"
+                app:layout_constraintVertical_bias="0.48"
+                android:background="@drawable/sound_max"
+                android:backgroundTint="@color/darkBlue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/vibrationSwitchKeySetting"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/round_button"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
+            <TextView
+                android:id="@+id/vibrationSwitchIconView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintHorizontal_bias="0.43"
+                app:layout_constraintVertical_bias="0.48"
+                android:background="@drawable/vibrate_on"
+                android:backgroundTint="@color/darkBlue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/youtubeKeySetting"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/round_button"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintHorizontal_bias="0.43"
+                app:layout_constraintVertical_bias="0.48"
+                android:background="@drawable/youtube"
+                android:backgroundTint="@color/darkBlue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

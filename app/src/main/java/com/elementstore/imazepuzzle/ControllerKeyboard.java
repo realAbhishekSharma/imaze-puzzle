@@ -7,12 +7,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.elementstore.imazepuzzle.R;
+import com.elementstore.imazepuzzle.services.ShrinkViewEffect;
 import com.elementstore.imazepuzzle.services.SoundAndVibration;
 
 public class ControllerKeyboard {
 
-    TextView clickUp, clickDown, clickLeft, clickRight;
+    ConstraintLayout clickUp, clickDown, clickLeft, clickRight;
     KeyPressedListener keyPressedListener;
     Context context;
     View root;
@@ -30,6 +33,10 @@ public class ControllerKeyboard {
         clickRight = root.findViewById(R.id.clickRightKey);
         clickUp = root.findViewById(R.id.clickUpKey);
         clickDown = root.findViewById(R.id.clickDownKey);
+        new ShrinkViewEffect(clickLeft);
+        new ShrinkViewEffect(clickRight);
+        new ShrinkViewEffect(clickUp);
+        new ShrinkViewEffect(clickDown);
 
         clickLeft.setOnClickListener(view -> {
             keyPressedListener.onLeftKey(view);

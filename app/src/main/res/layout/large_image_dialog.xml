@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:background="@drawable/board_layout"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,58 +17,77 @@
         android:gravity="center">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:text="Image Preview:"
-            android:textSize="18dp"
+            android:layout_width="300dp"
+            android:layout_height="55dp"
+            android:background="@drawable/top_long_box"
+            android:text="Image Preview"
+            android:textSize="25dp"
+            android:gravity="center"
             android:layout_gravity="center|top"
             android:fontFamily="@font/boffossi"
-            android:textColor="@color/darkCyan"
-            />
+            android:textColor="@color/darkCyan" />
 
         <ImageView
-            android:id="@+id/imagePreview"
+            android:id="@+id/largeImagePreviewMainGame"
             android:layout_width="280dp"
             android:layout_height="280dp"
-            android:gravity="center_vertical"
-            android:layout_gravity="center"
-            />
+            android:gravity="center"
+            android:background="@drawable/imaze_puzzle_icon"
+            android:layout_marginTop="20dp"/>
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/keyboardSwitchLargeDialog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="20dp">
+            android:id="@+id/controllerSwitchKeyMainGame"
+            android:layout_width="300dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/long_setting_box">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/agency"
-                android:textSize="22dp"
+                android:fontFamily="@font/jolly_lodger_regular"
+                android:textSize="25dp"
+                android:layout_marginStart="50dp"
                 android:text="Controller"
-                android:textColor="@color/darkCyan"
+                android:textColor="@color/darkBlue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
-                android:id="@+id/keyboardStatusTextLargeDialog"
+                android:id="@+id/controllerSwitchTextViewMainGame"
                 android:layout_width="80dp"
                 android:layout_height="27dp"
-                android:fontFamily="@font/agency"
+                android:layout_marginEnd="40dp"
+                android:fontFamily="@font/jolly_lodger_regular"
                 android:textSize="17dp"
                 android:gravity="center"
-                android:text="Swipe"
+                android:text="Button"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:background="@drawable/round_with_border"
-                android:backgroundTint="@color/darkCyan"
+                android:backgroundTint="@color/darkBlue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/exitButtonMainGame"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:textSize="30dp"
+            android:text="Exit"
+            android:visibility="gone"
+            android:fontFamily="@font/jolly_lodger_regular"
+            android:gravity="center"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/white"
+            android:background="@drawable/start_button"/>
 
     </LinearLayout>
 

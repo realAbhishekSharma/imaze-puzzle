@@ -4,51 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:background="@drawable/gradient_background"
+    android:background="@drawable/blur"
     tools:context=".Activity.LifeShopActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topLayout"
+        android:id="@+id/topTitleContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/topHeadingTitle"
+        <TextView
+            android:id="@+id/titleHolderTriangle"
+            android:layout_width="18dp"
+            android:layout_height="100dp"
+            android:background="@drawable/box_holder"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/mainTitleView"
+            app:layout_constraintEnd_toEndOf="@id/mainTitleView"/>
+
+        <TextView
+            android:id="@+id/mainTitleView"
             android:layout_width="250dp"
             android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
             android:padding="3dp"
-            android:background="@drawable/round_with_border"
-            android:backgroundTint="@color/skyCyan"
+            android:fontFamily="@font/boffossi"
+            android:textSize="25dp"
+            android:text="Life Shop"
+            android:textColor="@color/darkBlue"
+            android:gravity="center"
+            android:background="@drawable/long_setting_box"
+            app:layout_constraintVertical_bias="0.7"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/boffossi"
-                android:textSize="25dp"
-                android:text="Life Shop"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:background="@drawable/round_with_border"
-                android:backgroundTint="@color/darkCyan"/>
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/titleHolderTriangle"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/cloud"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/top_ice"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <LinearLayout
         android:layout_width="260dp"
         android:layout_height="40dp"
         android:orientation="horizontal"
         android:background="@drawable/size_selection_background"
-        android:backgroundTint="@color/mainCyan"
+        android:backgroundTint="@color/cloudCyan"
         app:layout_constraintEnd_toEndOf="@id/lifeDetails"
         app:layout_constraintStart_toStartOf="@id/lifeDetails"
         app:layout_constraintTop_toTopOf="@id/lifeDetails"
@@ -58,14 +71,14 @@
             android:layout_width="110dp"
             android:layout_height="40dp"
             android:background="@drawable/size_selection_background"
-            android:backgroundTint="@color/mainCyan"/>
+            android:backgroundTint="@color/cloudCyan"/>
 
         <TextView
             android:layout_width="110dp"
             android:layout_height="40dp"
             android:layout_marginStart="40dp"
             android:background="@drawable/size_selection_background"
-            android:backgroundTint="@color/mainCyan"/>
+            android:backgroundTint="@color/cloudCyan"/>
 
     </LinearLayout>
 
@@ -78,7 +91,7 @@
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topLayout">
+        app:layout_constraintTop_toBottomOf="@id/topTitleContainer">
 
 
         <TextView
@@ -101,7 +114,7 @@
             android:layout_marginStart="5dp"
             android:text="60 min Remain"
             android:textSize="15dp"
-            android:textColor="@color/white"
+            android:textColor="@color/darkBlue"
             android:fontFamily="@font/agency"/>
 
     </LinearLayout>
@@ -120,6 +133,7 @@
             android:id="@+id/lifeGridView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="70dp"
             android:horizontalSpacing="10dp"
             android:verticalSpacing="10dp"
             android:scrollbars="none"
@@ -127,6 +141,10 @@
             android:numColumns="auto_fit"
             />
     </LinearLayout>
+
+
+
+
 
 
 

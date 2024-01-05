@@ -1,11 +1,14 @@
 package com.elementstore.imazepuzzle.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
@@ -18,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setStatusBarColor(getColor(R.color.cloudCyan));
         setContentView(R.layout.activity_main);
-        getWindow().setStatusBarColor(getColor(R.color.white));
 
         mainSplashLogo = findViewById(R.id.mainSplashLogo);
 
@@ -30,7 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
         new Handler().postDelayed(() -> {
             startActivity(new Intent(getApplicationContext(), GameHome.class));
+            overridePendingTransition(R.anim.fading_in,R.anim.fading_out);
             finish();
+
+
         },time);
     }
 }
