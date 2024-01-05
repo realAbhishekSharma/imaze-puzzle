@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fullSingleLevelItem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+<!--
 
     <ImageView
         style="@style/gridLevelBox"
         android:layout_margin="20dp"
         android:rotation="-10"
-        android:backgroundTint="@color/gray90"
+        android:backgroundTint="@color/darkBlue"
         android:background="@drawable/small_round_box"
         app:layout_constraintEnd_toEndOf="@id/gridItemImageView"
         app:layout_constraintStart_toStartOf="@id/gridItemImageView"
@@ -64,6 +67,67 @@
             android:text="@string/customImageTextForThree"/>
 
     </LinearLayout>
+-->
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/gridLevelBox"
+        android:foreground="@drawable/level_frame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/gridItemImageView"
+            android:layout_height="85dp"
+            android:layout_width="85dp"
+            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintHorizontal_bias="0.35"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+        <LinearLayout
+            android:id="@+id/itemForegroundView"
+            android:layout_height="85dp"
+            android:layout_width="85dp"
+            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintHorizontal_bias="0.35"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            android:padding="5dp"
+            android:gravity="center"
+            android:background="@color/transparent40"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:background="@drawable/lock"
+                android:backgroundTint="@color/white"/>
+
+        </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/levelNumberView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:layout_margin="15dp"
+            android:fontFamily="@font/boffossi"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

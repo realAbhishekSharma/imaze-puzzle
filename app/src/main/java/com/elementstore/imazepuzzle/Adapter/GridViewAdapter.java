@@ -59,8 +59,8 @@ public class GridViewAdapter extends BaseAdapter {
 
         View root = inflater.inflate(R.layout.level_view_grid_item,null);
 
-        levelItemView = root.findViewById(R.id.itemForegroundView);
-        levelTextView = root.findViewById(R.id.levelTextGridItem);
+//        levelItemView = root.findViewById(R.id.itemForegroundView);
+//        levelTextView = root.findViewById(R.id.levelTextGridItem);
         levelImageView = root.findViewById(R.id.gridItemImageView);
 
         levelImageView.setBackground(context.getDrawable(imageIdLevelList.get(position)));

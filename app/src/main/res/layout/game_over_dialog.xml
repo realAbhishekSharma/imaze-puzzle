@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/topTitleViewGameOver"
+        android:layout_width="300dp"
+        android:layout_height="55dp"
+        android:background="@drawable/top_long_box"
+        android:text="Out Of Moves"
+        android:textSize="25dp"
+        android:gravity="center"
+        android:layout_gravity="center|top"
+        android:fontFamily="@font/boffossi"
+        android:textColor="@color/darkCyan"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/mainGameOverContainer"
+        android:layout_width="320dp"
+        android:layout_height="420dp"
+        android:layout_marginTop="20dp"
+        android:padding="20dp"
+        android:background="@drawable/game_over_frame"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/topTitleViewGameOver"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+
+        <LinearLayout
+            android:id="@+id/coinContainer"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:background="@drawable/small_round_box"
+            android:backgroundTint="#FFFFFF">
+
+            <TextView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/coins"/>
+
+            <TextView
+                android:id="@+id/earnedScoreViewGameOver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0000"
+                android:textColor="@color/darkCyan"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/jolly_lodger_regular"
+                android:textSize="25dp"/>
+
+
+        </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/textForLow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+30 Moves"
+            android:textSize="30dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/jolly_lodger_regular"
+            android:textColor="@color/white"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:backgroundTint="@color/white">
+
+            <TextView
+                android:id="@+id/coinForLow"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:text="1K Coins"
+                android:textSize="18dp"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/darkBlue"
+                android:fontFamily="@font/jolly_lodger_regular"
+                android:gravity="center"
+                android:background="@drawable/top_short_box"
+                android:layout_gravity="center_horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/adsForLow"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:text="Ads"
+                android:textSize="18dp"
+                android:textColor="@color/darkBlue"
+                android:fontFamily="@font/jolly_lodger_regular"
+                android:gravity="center"
+                android:background="@drawable/top_short_box"
+                android:layout_gravity="center_horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textForHigh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+60 Moves"
+            android:textSize="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/jolly_lodger_regular"
+            android:textColor="@color/white"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:backgroundTint="@color/white">
+
+            <TextView
+                android:id="@+id/coinForHigh"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:text="2K Coins"
+                android:textSize="18dp"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/darkBlue"
+                android:fontFamily="@font/jolly_lodger_regular"
+                android:gravity="center"
+                android:background="@drawable/top_short_box"
+                android:layout_gravity="center_horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/adsForHigh"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:text="Ads"
+                android:textSize="18dp"
+                android:textColor="@color/darkBlue"
+                android:fontFamily="@font/jolly_lodger_regular"
+                android:gravity="center"
+                android:background="@drawable/top_short_box"
+                android:layout_gravity="center_horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/goHomeGameOver"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:visibility="visible"
+        android:text="Ok"
+        android:textSize="30dp"
+        android:textColor="@color/darkBlue"
+        android:fontFamily="@font/jolly_lodger_regular"
+        android:gravity="center"
+        android:background="@drawable/round_button"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mainGameOverContainer"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

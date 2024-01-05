@@ -17,12 +17,33 @@ public class SliderBoxTheme {
         this.context = context;
     }
 
-    public int getActiveThemeColor() {
-        return sharedPreferences.getInt(COLOR, context.getColor(R.color.cyan));
+    public int getActiveBoxColor() {
+        return getColor(getColorIndex());
     }
 
-    public void setThemeColor(int color) {
-        sharedPreferences.edit().putInt(COLOR, color).apply();
+    public void changeActiveBoxColor() {
+        int index = getColorIndex();
+        if (index == 3){
+            index = 0;
+        }else {
+            index++;
+        }
+        sharedPreferences.edit().putInt(COLOR, index).apply();
+    }
+    private int getColorIndex(){
+        return sharedPreferences.getInt(COLOR, 0);
     }
 
+    private int getColor(int number){
+        switch (number){
+            case 1:
+                return R.color.cyan;
+            case 2:
+                return R.color.red;
+            case 3:
+                return R.color.green;
+            default:
+                return R.color.darkBlue;
+        }
+    }
 }

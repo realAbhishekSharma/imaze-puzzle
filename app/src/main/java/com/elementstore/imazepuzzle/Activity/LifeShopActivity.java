@@ -3,10 +3,14 @@ package com.elementstore.imazepuzzle.Activity;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -14,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.elementstore.imazepuzzle.Adapter.LifeShopAdapter;
 import com.elementstore.imazepuzzle.R;
@@ -52,17 +57,26 @@ public class LifeShopActivity extends AppCompatActivity {
 
     ConfirmDialog confirmDialog;
     SoundAndVibration soundAndVibration;
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), GameHome.class));
+        overridePendingTransition(0, 0);
+        finish();
+//        super.onBackPressed();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setStatusBarColor(getColor(R.color.cloudCyan));
         setContentView(R.layout.activity_life_shop_activity);
-        getWindow().setStatusBarColor(getColor(R.color.deepCyan));
 
         try {
             lifeShopData = getLifeShopData();
         } catch (IOException | JSONException e) {
             throw new RuntimeException(e);
         }
+
 
         lifeShopGridView = findViewById(R.id.lifeGridView);
         lifeView = findViewById(R.id.lifeViewLifeShop);
@@ -195,7 +209,7 @@ public class LifeShopActivity extends AppCompatActivity {
     private void loadLifeReward(){
 
         // Timer ads reload on every time over box
-        RewardedAd.load(this, getResources().getString(R.string.addLifeRewardAds), adRequest, new RewardedAdLoadCallback() {
+        RewardedAd.load(this, getResources().getString(R.string.addLifeReward), adRequest, new RewardedAdLoadCallback() {
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                 // Handle the error.

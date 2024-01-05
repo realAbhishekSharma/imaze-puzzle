@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/boardLayoutThree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:background="@drawable/board_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            style="@style/puzzleBox"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/oneTwo"/>
+
+
+        <ImageView
+            android:id="@+id/emptyBox"
+            style="@style/puzzleBox"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:id="@+id/oneOne"
+            style="@style/puzzleBox"
+            android:text="1"
+            android:textSize="25dp"
+            app:layout_constraintTop_toBottomOf="@id/emptyBox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/oneTwo"/>
+
+        <ImageView
+            android:id="@+id/oneTwo"
+            style="@style/puzzleBox"
+            android:text="2"
+            android:textSize="25dp"
+            app:layout_constraintTop_toBottomOf="@id/emptyBox"
+            app:layout_constraintStart_toEndOf="@id/oneOne"
+            app:layout_constraintEnd_toStartOf="@id/oneThree"/>
+
+        <ImageView
+            android:id="@+id/oneThree"
+            style="@style/puzzleBox"
+            android:text="3"
+            android:textSize="25dp"
+            app:layout_constraintTop_toBottomOf="@id/emptyBox"
+            app:layout_constraintStart_toEndOf="@id/oneTwo"/>
+
+        <ImageView
+            android:id="@+id/twoOne"
+            style="@style/puzzleBox"
+            android:text="4"
+            android:textSize="25dp"
+            app:layout_constraintTop_toBottomOf="@id/oneOne"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/oneTwo"/>
+
+        <ImageView
+            android:id="@+id/twoTwo"
+            style="@style/puzzleBox"
+            android:text="5"
+            android:textSize="25dp"
+            app:layout_constraintTop_toBottomOf="@id/oneOne"
+            app:layout_constraintStart_toEndOf="@id/oneOne"
+            app:layout_constraintEnd_toStartOf="@id/oneThree"/>
+
+        <ImageView
+            android:id="@+id/twoThree"
+            style="@style/puzzleBox"
+            android:text="6"
+            android:textSize="25dp"
+            app:layout_constraintTop_toBottomOf="@id/oneOne"
+            app:layout_constraintStart_toEndOf="@id/oneTwo"/>
+
+        <ImageView
+            android:id="@+id/threeOne"
+            style="@style/puzzleBox"
+            android:text="7"
+            android:textSize="25dp"
+            app:layout_constraintTop_toBottomOf="@id/twoOne"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/oneTwo"/>
+
+        <ImageView
+            android:id="@+id/threeTwo"
+            style="@style/puzzleBox"
+            android:text="8"
+            android:textSize="25dp"
+            app:layout_constraintTop_toBottomOf="@id/twoOne"
+            app:layout_constraintStart_toEndOf="@id/oneOne"
+            app:layout_constraintEnd_toStartOf="@id/oneThree"/>
+
+        <ImageView
+            android:id="@+id/threeThree"
+            style="@style/puzzleBox"
+            android:text="9"
+            android:textSize="25dp"
+            app:layout_constraintTop_toBottomOf="@id/twoOne"
+            app:layout_constraintStart_toEndOf="@id/oneTwo"/>
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:visibility="gone"
+            android:background="@drawable/three_size_frame"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

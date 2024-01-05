@@ -4,14 +4,18 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +40,7 @@ import org.json.JSONObject;
 
 public class MissionActivity extends AppCompatActivity {
 
-    TextView dailyMissionSelection, oneTimeMissionSelection;
+    TextView dailyMissionSelection, oneTimeMissionSelection, dailyTextView, oneTimeTextView;
     SoundAndVibration soundAndVibration;
     RecyclerView missionsRecyclerView;
     MissionViewAdapter missionViewAdapter;
@@ -52,11 +56,21 @@ public class MissionActivity extends AppCompatActivity {
 
     RewardedAd coinsRewardAds;
 
+    ConstraintLayout loadingScreenView;
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), GameHome.class));
+        overridePendingTransition(0, 0);
+        finish();
+//        super.onBackPressed();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setStatusBarColor(getColor(R.color.cloudCyan));
         setContentView(R.layout.activity_missions);
-        getWindow().setStatusBarColor(getColor(R.color.deepCyan));
 
         mission = new Mission(this);
         playerLife = new PlayerLife(this);
@@ -66,6 +80,8 @@ public class MissionActivity extends AppCompatActivity {
 
         dailyMissionSelection = findViewById(R.id.dailyMissionsSelection);
         oneTimeMissionSelection = findViewById(R.id.oneTimeMissionsSelection);
+        dailyTextView = findViewById(R.id.dailyTextView);
+        oneTimeTextView = findViewById(R.id.oneTimeTextView);
 
         missionsRecyclerView = findViewById(R.id.missionRecyclerView);
 
@@ -116,11 +132,15 @@ public class MissionActivity extends AppCompatActivity {
 
     private void changeSelectionBackground(boolean type){
         if (type){
-            dailyMissionSelection.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.darkCyan)));
-            oneTimeMissionSelection.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.mainCyan)));
+            dailyMissionSelection.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.darkBlue)));
+            oneTimeMissionSelection.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.cloudCyan)));
+            dailyTextView.setTextColor(getColor(R.color.white));
+            oneTimeTextView.setTextColor(getColor(R.color.darkBlue));
         }else{
-            dailyMissionSelection.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.mainCyan)));
-            oneTimeMissionSelection.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.darkCyan)));
+            dailyMissionSelection.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.cloudCyan)));
+            oneTimeMissionSelection.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.darkBlue)));
+            dailyTextView.setTextColor(getColor(R.color.darkBlue));
+            oneTimeTextView.setTextColor(getColor(R.color.white));
         }
     }
 
@@ -179,7 +199,7 @@ public class MissionActivity extends AppCompatActivity {
     }
 
     private void loadCoinsReward(){
-        RewardedAd.load(this, getResources().getString(R.string.addLifeRewardAds), adRequest, new RewardedAdLoadCallback() {
+        RewardedAd.load(this, getResources().getString(R.string.addLifeReward), adRequest, new RewardedAdLoadCallback() {
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                 // Handle the error.

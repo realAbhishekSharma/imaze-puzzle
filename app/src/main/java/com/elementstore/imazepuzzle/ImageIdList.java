@@ -1,5 +1,13 @@
 package com.elementstore.imazepuzzle;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,5 +79,27 @@ public class ImageIdList {
         return imageIdList.size();
     }
 
+    public void saveBitmap(Context context, Bitmap image){
+        try {
+            FileOutputStream stream = context.openFileOutput("customImage", Context.MODE_PRIVATE);
+            image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.close();
+//            image.recycle();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    public Bitmap getBitmap(Context context){
+        Bitmap image = null;
+        try {
+            FileInputStream inputStream = context.openFileInput("customImage");
+            image = BitmapFactory.decodeStream(inputStream);
+            inputStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return image;
+    }
 
 }
